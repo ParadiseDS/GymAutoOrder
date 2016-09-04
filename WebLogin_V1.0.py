@@ -1,4 +1,8 @@
 # -*- coding:utf8 -*-
+# TODO:
+# 1. 检测系统当前时间，若大于0点小于八点则在当天预约（有两处要修改，login delay=0，order delay=2）
+# 2. 手机号输入
+# 3. 伙伴id输入
 """
 程序在当晚12点前启动,第二天早晨预约2天后的场地	
 2015-12-23 18:38:05
@@ -30,7 +34,8 @@ class OrderRobot:
 		self.validateimageUrl = 'http://yuyue.seu.edu.cn/eduplus/control/validateimage'
 		self.postOrderUrl = 'http://yuyue.seu.edu.cn/eduplus/order/order/insertOredr.do?sclId=1'
 		today = datetime.date.today()
-		self.orderday = today + datetime.timedelta(days=3)
+		todaydelta = (0 if datetime.datetime.now().hour < 8 else 1)
+		self.orderday = today + datetime.timedelta(days=2+todaydelta)
 		self.cookie = cookielib.CookieJar()    
 		self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cookie))
 		self.username = raw_input('username>')
@@ -92,7 +97,7 @@ class OrderRobot:
 
 now = datetime.datetime.now()
 
-nextDay = now + datetime.timedelta(days=1)
+nextDay = now + datetime.timedelta(days=todaydelta)
 #登陆时间 8:00:00s
 loginTime = datetime.datetime(nextDay.year, nextDay.month, nextDay.day , 8, 0, 0)	
 #登出时间 8:04:00s
