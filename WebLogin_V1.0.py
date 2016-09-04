@@ -25,6 +25,8 @@ import PicProcess
 
 DATEFORMAT_Ymd = '%Y-%m-%d'
 DATEFORMAT_YmdHMS = '%Y-%m-%d %H:%M:%S'
+todaydelta = (0 if datetime.datetime.now().hour < 8 else 1)
+
 class OrderRobot:
 	def __init__(self):
 		self.headers = {
@@ -34,7 +36,7 @@ class OrderRobot:
 		self.validateimageUrl = 'http://yuyue.seu.edu.cn/eduplus/control/validateimage'
 		self.postOrderUrl = 'http://yuyue.seu.edu.cn/eduplus/order/order/insertOredr.do?sclId=1'
 		today = datetime.date.today()
-		todaydelta = (0 if datetime.datetime.now().hour < 8 else 1)
+
 		self.orderday = today + datetime.timedelta(days=2+todaydelta)
 		self.cookie = cookielib.CookieJar()    
 		self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cookie))
