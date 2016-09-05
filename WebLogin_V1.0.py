@@ -42,8 +42,8 @@ class OrderRobot:
 		self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cookie))
 		self.username = raw_input('username>')
 		self.password = raw_input('password>')
-		self.time = {'6':' 18:00-19:00', '7':' 19:00-20:00', '8':' 20:00-21:00'}
-		self.t = raw_input('starttime: \n6---18:00-19:00 \n7---19:00-20:00 \n8---20:00-21:00\n>')
+		self.time = {'15':' 15:00-16:00', '16':' 16:00-17:00', '17':' 17:00-18:00', '18':' 18:00-19:00', '19':' 19:00-20:00', '20':' 20:00-21:00'}
+		self.t = raw_input('starttime: \n(17 represents 5:00pm - 6:00 pm)\n>')
 		self.starttime = self.time[self.t]
 		self.loginPostdata=urllib.urlencode({    
 			'Login.Token1':self.username,
