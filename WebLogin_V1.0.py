@@ -1,8 +1,8 @@
 # -*- coding:utf8 -*-
 # TODO:
 # 1. 检测系统当前时间，若大于0点小于八点则在当天预约（有两处要修改，login delay=0，order delay=2） -- done
-# 2. 手机号输入
-# 3. 伙伴id输入
+# 2. 手机号输入 -- done
+# 3. 伙伴id输入 -- done
 # 4. 支持将参数保存到文件后之后直接读取
 """
 程序在当晚12点前启动,第二天早晨预约2天后的场地	
@@ -46,13 +46,14 @@ class OrderRobot:
 		self.time = {'15':' 15:00-16:00', '16':' 16:00-17:00', '17':' 17:00-18:00', '18':' 18:00-19:00', '19':' 19:00-20:00', '20':' 20:00-21:00'}
 		self.t = raw_input('starttime: \n(Example: 17 represents 17:00 - 18:00 pm)\nValid Number: 15-20\n>')
 		self.starttime = self.time[self.t]
+		self.phone = raw_input('PhoneNumber>')
+		self.friendId = raw_input('friendID>')
 		self.loginPostdata=urllib.urlencode({    
 			'Login.Token1':self.username,
 			'Login.Token2':self.password,
 			'goto':'http://myold.seu.edu.cn/loginSuccess.portal',
 			'gotoOnFail':'http://myold.seu.edu.cn/loginFailure.portal'    
 		})  
-		self.friendId = '75496'
 		self.islogin = False
 		
 	def setFriend(self, name):
@@ -84,8 +85,8 @@ class OrderRobot:
 			'orderVO.useTime':self.orderday.strftime(DATEFORMAT_Ymd)+self.starttime,
             'orderVO.itemId':'10',
 			'orderVO.useMode':'2',
-			'useUserIds':'77400',
-			'orderVO.phone':'13736542156',
+			'useUserIds':self.friendId,
+			'orderVO.phone':self.phone,
 			'orderVO.remark':'',
 			'validateCode':validateNum
 		})
