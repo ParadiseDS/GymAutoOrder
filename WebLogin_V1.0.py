@@ -3,7 +3,7 @@
 # 1. 检测系统当前时间，若大于0点小于八点则在当天预约（有两处要修改，login delay=0，order delay=2） -- done
 # 2. 手机号输入 -- done
 # 3. 伙伴id输入 -- done
-# 4. 支持将参数保存到文件后之后直接读取
+# 4. 支持将参数保存到文件后之后直接读取 -- done
 """
 程序在当晚12点前启动,第二天早晨预约2天后的场地	
 2015-12-23 18:38:05
@@ -41,13 +41,34 @@ class OrderRobot:
 		self.orderday = today + datetime.timedelta(days=2+todaydelta)
 		self.cookie = cookielib.CookieJar()    
 		self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cookie))
-		self.username = raw_input('username>')
-		self.password = raw_input('password>')
+		read = False
+		if os.path.exists('info.txt') and raw_input('Use info in the file?(y/n)') == 'y':
+			infoFile = open('info.txt', 'rU')
+			info = infoFile.readlines()
+			infoFile.close()
+			info_len = len(info)
+			if info_len == 4:
+				self.username = info[0].strip()
+				self.password = info[1].strip()
+				self.phone = info[2].strip()
+				self.friendId = info[3].strip()
+				read = True
+			else:
+				print 'Invalid File!'
+		if read == False:
+			self.username = raw_input('username>')
+			self.password = raw_input('password>')
+			self.phone = raw_input('PhoneNumber>')
+			self.friendId = raw_input('friendId>')
+			isSave = raw_input('Save info to file?(y/n)')
+			if isSave == 'y':
+				infoFile = open('info.txt', 'w')
+				infoFile.write(self.username + '\n' + self.password + '\n' + self.phone + '\n' + self.friendId)
+				infoFile.close()
+				print 'Saved!'
 		self.time = {'15':' 15:00-16:00', '16':' 16:00-17:00', '17':' 17:00-18:00', '18':' 18:00-19:00', '19':' 19:00-20:00', '20':' 20:00-21:00'}
-		self.t = raw_input('starttime: \n(Example: 17 represents 17:00 - 18:00 pm)\nValid Number: 15-20\n>')
+		self.t = raw_input('starttime: \nValid Number: 15-20 (Example: 17 represents 17:00 - 18:00)\n>')
 		self.starttime = self.time[self.t]
-		self.phone = raw_input('PhoneNumber>')
-		self.friendId = raw_input('friendID>')
 		self.loginPostdata=urllib.urlencode({    
 			'Login.Token1':self.username,
 			'Login.Token2':self.password,
