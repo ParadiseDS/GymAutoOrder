@@ -1,13 +1,10 @@
 # -*- coding:utf8 -*-
-# TODO:
-# 1. 检测系统当前时间，若大于0点小于八点则在当天预约（有两处要修改，login delay=0，order delay=2） -- done
-# 2. 手机号输入 -- done
-# 3. 伙伴id输入 -- done
-# 4. 支持将参数保存到文件后之后直接读取 -- done
 """
-程序在当晚12点前启动,第二天早晨预约2天后的场地	
-2015-12-23 18:38:05
-xuchen
+1. 检测系统当前时间，若大于0点小于八点则在当天预约
+2. 支持将参数保存到文件后之后直接读取
+3. Other slightly changes (see commit)
+--ParadiseDS
+20160907
 """
 
 import urllib2
